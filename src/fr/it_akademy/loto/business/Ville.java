@@ -1,5 +1,9 @@
 package fr.it_akademy.loto.business;
 
+import fr.it_akademy.loto.business.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * cette classe represente une ville
  */
@@ -11,7 +15,7 @@ public class Ville {
    private Double latitude;
    private String complement;
    private static Long compteur = 0L;
-
+   private  List<Joueur> joueurs = new ArrayList<>();
    public Ville(){
        id = ++compteur;
    }
@@ -77,15 +81,24 @@ public class Ville {
         Ville.compteur = compteur;
     }
 
+    public List<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public void setJoueurs(List<Joueur> joueurs) {
+        this.joueurs = joueurs;
+    }
+
     @Override
     public String toString() {
-        return "Ville {" +
+        return "Ville{" +
                 "id=" + id +
                 ", codeInsee='" + codeInsee + '\'' +
                 ", codePostal='" + codePostal + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", complement='" + complement + '\'' +
+                ", joueurs=" + joueurs +
                 '}';
     }
 }
