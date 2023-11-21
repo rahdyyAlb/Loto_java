@@ -22,11 +22,77 @@ public class App {
     private static Set<Departement> departements = new HashSet<>();
     private static Set<Region> regions = new HashSet<>();
 
+    private static int[] grilleGagnante = grilleGenerator();
+
     public static void main(String[] args) {
 
         importerVilles();
+        ajouterPrenoms();
+        ajouterJoueurs(4);
+        saisirGrille();
+        afficherJoueurs();
+        String stringG = Arrays.toString(grilleGagnante);
+        System.out.println("Voici grille gagnant : " + stringG);
+        System.out.println("Voici la liste des gagnants : " + determinerGagnant(grilleGagnante));
 
     }
+
+    private static void saisirGrille() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Bonjour, veuillez saisir votre prénom : ");
+        String joueurNom = scanner.nextLine();
+
+        Set<Integer> grilleUtilisateur = new HashSet<>();
+
+        while (grilleUtilisateur.size() < 5) {
+            System.out.println("Veuillez saisir un nombre entre 1 et 50 : ");
+
+            if (scanner.hasNextInt()) {
+                int nombre = scanner.nextInt();
+
+                if (nombre >= 1 && nombre <= 50 && !grilleUtilisateur.contains(nombre)) {
+                    grilleUtilisateur.add(nombre);
+                } else {
+                    System.out.println("Nombre invalide ou déjà saisi. Veuillez réessayer.");
+                }
+            } else {
+                System.out.println("Entrée non valide. Veuillez saisir un nombre.");
+                scanner.next();
+            }
+        }
+
+        int[] grilleArray = grilleUtilisateur.stream().mapToInt(Integer::intValue).toArray();
+
+        Joueur utilisateur = new Joueur(joueurNom);
+        utilisateur.setGrille(grilleArray);
+        joueurs.add(utilisateur);
+
+        System.out.print("Le joueur " + joueurNom + " a été ajouté avec la grille suivante : [");
+        for (int nombre : grilleArray) {
+            System.out.print(nombre + " ");
+        }
+        System.out.println("]");
+    }
+
+    private static String determinerGagnant(int[] grilleGagnante) {
+        for (Joueur joueur : joueurs) {
+            if (compareGrilles(joueur.getGrille(), grilleGagnante)) {
+                return joueur.toString();
+            }
+        }
+        return "Aucun gagnant";
+    }
+
+    private static boolean compareGrilles(int[] grilleJoueur, int[] grilleGagnante) {
+        for (int i = 0; i < grilleJoueur.length; i++) {
+            if (grilleJoueur[i] != grilleGagnante[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     private static void importerVilles() {
 
@@ -58,6 +124,7 @@ public class App {
                     region = new Region(resultat[14]);
                     Departement departement = new Departement(resultat[12], resultat[11], region);
                     departements.add(departement);
+                    System.out.println(region);
                     regions.add(region);
                     ville.setDepartement(departement);
                 }
@@ -76,6 +143,7 @@ public class App {
             // En cas de panne réseau, nous allons arriver ici
             System.exit(-1);
         }
+
         System.out.println("Nombre de villes : " + villes.size());
         System.out.println("Nombre de départements : " + departements.size());
         System.out.println("Nombre de régions : " + regions.size());
@@ -107,22 +175,37 @@ public class App {
 
     }
 
-    private static void ajouterJoueurs() {
-// ondeclare un ojb de type rdm
-        Random nbm = new Random();
-        //int nbrOfList = prenoms.lastIndexOf(prenoms);
+    private static void ajouterJoueurs(int nbrJoueur) {
+        for (int i = 0; i < nbrJoueur; i++) {
+            Random nbm = new Random();
+            int positionHsd = prenoms.size();
+            String prenomHsd = prenoms.get(nbm.nextInt(positionHsd));
 
-        // on invoque la methode size sur la list des prenoms
-        int positionHsd = prenoms.size();
-        // on invoque la methode get sur la liste des prenoms en donnant en parametre un nbr en 0 et 14
-        String prenomHsd = prenoms.get(nbm.nextInt(positionHsd));
-        // on ajoute un nouveau joueur a la liste des joueurs , se joueur aura le prénom choisie aléatoirement
-        joueurs.add(0, new Joueur(prenomHsd));
-        joueurs.add(new Joueur("Mathieu"));
-        joueurs.add(new Joueur("Rahdy", "Ali bacari", "0610859518", LocalDate.of(1994, 3, 28)));
-        joueurs.add(2, new Joueur("Coraline"));
-        joueurs.add(1, new Joueur("Eloi"));
-        joueurs.add(new Joueur("Alex"));
+            int[] grilleJoueur = grilleGenerator();
+            Joueur joueur = new Joueur(prenomHsd);
+            joueur.setGrille(grilleJoueur);
+            joueurs.add(joueur);
+        }
+    }
+
+    private static int[] grilleGenerator() {
+        int[] grille = new int[5];
+        Set<Integer> grilleJoueur = new HashSet<>();
+
+        while (grilleJoueur.size() < 5) {
+            int min = 1;
+            int max = 50;
+            Random nbm2 = new Random();
+            int nrdm = nbm2.nextInt(max - min + 1) + min;
+            grilleJoueur.add(nrdm);
+        }
+
+        int i = 0;
+        for (Integer number : grilleJoueur) {
+            grille[i++] = number;
+        }
+
+        return grille;
     }
 
     private static void afficherJoueurs() {
