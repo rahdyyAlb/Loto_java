@@ -2,14 +2,17 @@ package fr.it_akademy.loto.business;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import fr.it_akademy.loto.business.*;
 
 public class Departement {
     private Long id;
     private String name;
-    private int code;
+    private String code;
     private static Long compteur = 0L;
-    private List<Ville> villes = new ArrayList<>();
+    private Region region;
+
     public Departement() {
         id = ++compteur;
     }
@@ -19,11 +22,15 @@ public class Departement {
         this.name = name;
     }
 
-    public Departement(String name, int code) {
+    public Departement(String name, String code) {
         this(name);
         this.code = code;
     }
 
+    public Departement(String name, String code, Region region) {
+        this(name, code);
+        this.region = region;
+    }
 
     public String getName() {
         return name;
@@ -33,13 +40,6 @@ public class Departement {
         this.name = name;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
 
     public static Long getCompteur() {
         return compteur;
@@ -49,12 +49,33 @@ public class Departement {
         Departement.compteur = compteur;
     }
 
-    public List<Ville> getVilles() {
-        return villes;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public void setVilles(List<Ville> villes) {
-        this.villes = villes;
+    public String getCode() {
+        return code;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Departement that = (Departement) o;
+        return Objects.equals(name, that.name) && Objects.equals(code, that.code) && Objects.equals(region, that.region);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, code, region);
     }
 
     @Override
@@ -62,8 +83,8 @@ public class Departement {
         return "Departement{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", code=" + code +
-                ", villes=" + villes +
+                ", code='" + code + '\'' +
+                ", region=" + region +
                 '}';
     }
 }

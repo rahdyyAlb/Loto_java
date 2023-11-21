@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 /**
  * Cette classe représente le concept de Joueur
- *
  */
 public class Joueur {
 

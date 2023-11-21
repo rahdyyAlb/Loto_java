@@ -1,6 +1,7 @@
 package fr.it_akademy.loto.business;
 
 import fr.it_akademy.loto.business.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,29 +9,36 @@ import java.util.List;
  * cette classe represente une ville
  */
 public class Ville {
-   private Long id ;
-   private String codeInsee;
-   private String codePostal;
-   private Double longitude;
-   private Double latitude;
-   private String complement;
-   private static Long compteur = 0L;
-   private  List<Joueur> joueurs = new ArrayList<>();
-   public Ville(){
-       id = ++compteur;
-   }
-    public Ville(String codePostal){
-       this();
-       this.codePostal=codePostal;
+    private Long id;
+    private String codeInsee;
+    private String codePostal;
+    private String name;
+    private Double longitude;
+    private Double latitude;
+    private String complement;
+    private static Long compteur = 0L;
+    private List<Joueur> joueurs = new ArrayList<>();
+    private Departement departement;
+
+    public Ville() {
+        id = ++compteur;
     }
-    public Ville(String codePostal ,String codeInsee){
-       this(codePostal);
-       this.codeInsee=codeInsee;
+
+    public Ville(String codePostal) {
+        this();
+        this.codePostal = codePostal;
     }
-    public Ville(String codePostal ,String codeInsee, Double latitude, Double longitude){
-       this(codePostal,codeInsee);
-       this.latitude = latitude;
-       this.longitude = longitude;
+
+    public Ville(String codePostal, String codeInsee) {
+        this(codePostal);
+        this.codeInsee = codeInsee;
+    }
+
+    public Ville(String codePostal, String codeInsee, String name, Double latitude, Double longitude) {
+        this(codePostal, codeInsee);
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getCodeInsee() {
@@ -89,16 +97,34 @@ public class Ville {
         this.joueurs = joueurs;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Departement getDepartement() {
+        return departement;
+    }
+
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
+    }
+
     @Override
     public String toString() {
         return "Ville{" +
                 "id=" + id +
                 ", codeInsee='" + codeInsee + '\'' +
                 ", codePostal='" + codePostal + '\'' +
+                ", name='" + name + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", complement='" + complement + '\'' +
                 ", joueurs=" + joueurs +
+                ", departement=" + departement +
                 '}';
     }
 }

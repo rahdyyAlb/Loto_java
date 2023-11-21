@@ -4,6 +4,7 @@ import fr.it_akademy.loto.business.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Region {
     private Long id;
@@ -11,13 +12,14 @@ public class Region {
 
     private static Long compteur = 0L;
     private List<Departement> departements = new ArrayList<>();
-    public Region(){
+
+    public Region() {
         id = ++compteur;
     }
 
-    public Region(String name){
+    public Region(String name) {
         this();
-        this.name=name;
+        this.name = name;
     }
 
     public String getName() {
@@ -42,6 +44,19 @@ public class Region {
 
     public void setDepartements(List<Departement> departements) {
         this.departements = departements;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Region region = (Region) o;
+        return Objects.equals(name, region.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override
